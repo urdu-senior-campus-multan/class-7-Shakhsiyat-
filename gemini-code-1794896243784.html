@@ -1,0 +1,1135 @@
+<!DOCTYPE html>
+<html lang="ur" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>مشن خاکہ نگاری - جماعت ہفتم</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-main: #060b19;
+    --bg-card: rgba(15, 23, 42, 0.96);
+    --cyan: #38bdf8;
+    --gold: #facc15;
+    --orange: #fb923c;
+    --emerald: #34d399;
+    --purple: #c084fc;
+    --rose: #fb7185;
+    --text-white: #f8fafc;
+    --text-soft: #cbd5e1;
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    font-family: 'Jameel Noori Nastaleeq', 'Noto Nastaliq Urdu', serif;
+    background: radial-gradient(circle at top, #1e1b4b 0%, #090e1c 60%, #03060d 100%);
+    color: var(--text-white);
+    min-height: 100vh;
+    line-height: 2.3;
+    font-size: 1.25rem;
+  }
+
+  .container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+
+  header {
+    text-align: center;
+    padding: 24px 20px;
+    background: linear-gradient(135deg, #0f172a, #1e1b4b);
+    border: 2.5px solid var(--gold);
+    border-radius: 26px;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.65), 0 0 28px rgba(250, 204, 21, 0.25);
+    margin-bottom: 22px;
+  }
+
+  .badge {
+    display: inline-block;
+    background: rgba(56, 189, 248, 0.16);
+    color: var(--cyan);
+    border: 1.5px solid var(--cyan);
+    padding: 2px 20px;
+    border-radius: 50px;
+    font-size: 1.05rem;
+    margin-bottom: 6px;
+  }
+
+  header h1 {
+    font-size: 2.6rem;
+    color: var(--gold);
+    text-shadow: 0 2px 14px rgba(250, 204, 21, 0.5);
+  }
+
+  .score-strip {
+    display: flex;
+    justify-content: center;
+    gap: 18px;
+    flex-wrap: wrap;
+    margin-top: 12px;
+  }
+
+  .score-box {
+    background: rgba(6, 11, 25, 0.92);
+    border: 1.5px solid var(--emerald);
+    color: var(--emerald);
+    padding: 3px 22px;
+    border-radius: 50px;
+    font-size: 1.15rem;
+  }
+
+  .nav-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 24px;
+  }
+
+  .tab-btn {
+    font-family: inherit;
+    font-size: 1.15rem;
+    background: var(--bg-card);
+    color: var(--text-white);
+    border: 1.5px solid rgba(148, 163, 184, 0.35);
+    padding: 8px 16px;
+    border-radius: 16px;
+    cursor: pointer;
+    transition: 0.25s;
+  }
+
+  .tab-btn:hover {
+    border-color: var(--gold);
+    transform: translateY(-2px);
+  }
+
+  .tab-btn.active {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    color: #0f172a;
+    font-weight: bold;
+    border-color: #fef08a;
+    box-shadow: 0 0 18px rgba(250, 204, 21, 0.55);
+  }
+
+  .tab-content {
+    display: none;
+  }
+
+  .tab-content.active {
+    display: block;
+    animation: fadeIn 0.35s ease;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .card {
+    background: var(--bg-card);
+    border: 1.5px solid rgba(56, 189, 248, 0.35);
+    border-radius: 22px;
+    padding: 25px;
+    margin-bottom: 22px;
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.45);
+  }
+
+  .section-title {
+    font-size: 1.85rem;
+    color: var(--gold);
+    border-bottom: 2px dashed rgba(250, 204, 21, 0.3);
+    padding-bottom: 8px;
+    margin-bottom: 18px;
+  }
+
+  /* Vocabulary Flip/Reveal Cards */
+  .vocab-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 16px;
+  }
+
+  .vocab-card {
+    background: linear-gradient(145deg, #0f172a, #1e293b);
+    border: 2px solid var(--cyan);
+    border-radius: 18px;
+    padding: 18px;
+    text-align: center;
+    cursor: pointer;
+    transition: 0.25s;
+  }
+
+  .vocab-card:hover {
+    border-color: var(--gold);
+    transform: translateY(-4px);
+  }
+
+  .vocab-word {
+    font-size: 1.55rem;
+    color: var(--gold);
+    font-weight: bold;
+  }
+
+  .vocab-meaning {
+    margin-top: 8px;
+    color: var(--emerald);
+    font-size: 1.15rem;
+    display: none;
+  }
+
+  .vocab-card.revealed .vocab-meaning {
+    display: block;
+  }
+
+  /* Golden Rules Grid */
+  .rules-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+    gap: 16px;
+  }
+
+  .rule-box {
+    background: rgba(6, 11, 25, 0.94);
+    border-right: 5px solid var(--purple);
+    border-radius: 16px;
+    padding: 16px 20px;
+  }
+
+  .rule-box h4 {
+    color: var(--cyan);
+    font-size: 1.35rem;
+    margin-bottom: 4px;
+  }
+
+  /* Quiz Cards */
+  .quiz-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+  }
+
+  .quiz-item {
+    background: #0b132b;
+    border: 1.5px solid #334155;
+    border-radius: 16px;
+    padding: 16px;
+  }
+
+  .btn-opt {
+    display: block;
+    width: 100%;
+    text-align: right;
+    font-family: inherit;
+    font-size: 1.12rem;
+    background: #1e293b;
+    color: #fff;
+    border: 1px solid #475569;
+    padding: 6px 14px;
+    border-radius: 10px;
+    margin-top: 8px;
+    cursor: pointer;
+  }
+
+  .btn-opt:hover {
+    border-color: var(--gold);
+  }
+
+  /* RADIAL HUB-AND-SPOKE MIND MAP */
+  .radial-board {
+    background: radial-gradient(circle at center, #134e4a 0%, #0f172a 75%, #060b19 100%);
+    border: 3px solid #2dd4bf;
+    border-radius: 28px;
+    padding: 30px 20px;
+    box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.65);
+  }
+
+  .radial-header {
+    text-align: center;
+    margin-bottom: 24px;
+  }
+
+  .radial-header h3 {
+    font-size: 2.1rem;
+    color: #fef08a;
+  }
+
+  .radial-layout {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 24px;
+    align-items: center;
+  }
+
+  .radial-col {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+  }
+
+  .center-hub-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 22px;
+  }
+
+  .center-circle {
+    width: 215px;
+    height: 215px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, #fef08a, #facc15 65%, #eab308 100%);
+    border: 6px solid #0f172a;
+    box-shadow: 0 0 0 4px #facc15, 0 15px 35px rgba(0, 0, 0, 0.75);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #0f172a;
+    padding: 15px;
+  }
+
+  .center-circle span.big-title {
+    font-size: 1.9rem;
+    font-weight: bold;
+    line-height: 1.45;
+  }
+
+  .mm-bubble {
+    background: #fefce8;
+    color: #0f172a;
+    border: 4px solid #0f172a;
+    border-radius: 30px;
+    padding: 16px 20px;
+    box-shadow: 6px 6px 0px #0f172a, 0 10px 25px rgba(0, 0, 0, 0.45);
+  }
+
+  .mm-bubble.b1 { background: #fef9c3; border-color: #ca8a04; box-shadow: 6px 6px 0px #ca8a04; }
+  .mm-bubble.b2 { background: #e0f2fe; border-color: #0284c7; box-shadow: 6px 6px 0px #0284c7; }
+  .mm-bubble.b3 { background: #dcfce7; border-color: #16a34a; box-shadow: 6px 6px 0px #16a34a; }
+  .mm-bubble.b4 { background: #ffe4e6; border-color: #e11d48; box-shadow: 6px 6px 0px #e11d48; }
+  .mm-bubble.b5 { background: #f3e8ff; border-color: #7e22ce; box-shadow: 6px 6px 0px #7e22ce; }
+
+  .bubble-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 2px dashed rgba(15, 23, 42, 0.25);
+    padding-bottom: 4px;
+    margin-bottom: 8px;
+  }
+
+  .bubble-title {
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: #0f172a;
+  }
+
+  .bubble-input-row {
+    display: flex;
+    gap: 8px;
+    margin-top: 6px;
+  }
+
+  .bubble-input {
+    flex: 1;
+    font-family: inherit;
+    font-size: 1.15rem;
+    background: #ffffff;
+    color: #0f172a;
+    border: 2px solid #475569;
+    border-radius: 12px;
+    padding: 4px 12px;
+  }
+
+  .bubble-check-btn {
+    font-family: inherit;
+    font-size: 1.05rem;
+    background: #0f172a;
+    color: #facc15;
+    border: none;
+    padding: 4px 14px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+
+  @media (max-width: 960px) {
+    .radial-layout { grid-template-columns: 1fr; }
+    .center-circle { width: 170px; height: 170px; }
+  }
+
+  /* Model Sketch Passage */
+  .model-sketch {
+    background: rgba(6, 11, 25, 0.95);
+    border: 2px solid var(--gold);
+    border-radius: 20px;
+    padding: 24px;
+    font-size: 1.38rem;
+    line-height: 2.6;
+  }
+
+  .sketch-part {
+    background: rgba(56, 189, 248, 0.18);
+    border-bottom: 2px solid var(--cyan);
+    padding: 2px 8px;
+    border-radius: 8px;
+    cursor: pointer;
+    color: #e0f2fe;
+    transition: 0.2s;
+  }
+
+  .sketch-part:hover {
+    background: rgba(250, 204, 21, 0.35);
+    color: #fef08a;
+  }
+
+  /* Worksheets */
+  .group-bar {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 22px;
+  }
+
+  .grp-btn {
+    font-family: inherit;
+    font-size: 1.25rem;
+    padding: 10px 24px;
+    border-radius: 16px;
+    border: 2px solid transparent;
+    cursor: pointer;
+    font-weight: bold;
+  }
+
+  .g-shaheen { background: rgba(56, 189, 248, 0.2); color: #7dd3fc; border-color: #38bdf8; }
+  .g-sherdil { background: rgba(251, 146, 60, 0.2); color: #fdba74; border-color: #fb923c; }
+  .g-uqab { background: rgba(52, 211, 153, 0.2); color: #6ee7b7; border-color: #34d399; }
+  .g-ghazi { background: rgba(250, 204, 21, 0.2); color: #fef08a; border-color: #facc15; }
+
+  .g-shaheen.active { background: #0284c7; color: #fff; }
+  .g-sherdil.active { background: #ea580c; color: #fff; }
+  .g-uqab.active { background: #059669; color: #fff; }
+  .g-ghazi.active { background: #eab308; color: #0f172a; }
+
+  .ws-panel {
+    display: none;
+    background: rgba(6, 11, 25, 0.96);
+    border: 2px solid var(--cyan);
+    border-radius: 20px;
+    padding: 25px;
+  }
+
+  .ws-panel.active { display: block; }
+
+  .ws-meta {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 14px;
+    background: rgba(30, 41, 59, 0.75);
+    padding: 14px;
+    border-radius: 14px;
+    margin-bottom: 18px;
+  }
+
+  .ws-q {
+    margin-bottom: 18px;
+    padding-bottom: 14px;
+    border-bottom: 1px dashed #334155;
+  }
+
+  .ws-q label {
+    display: block;
+    color: var(--gold);
+    font-size: 1.25rem;
+    margin-bottom: 6px;
+  }
+
+  textarea.student-input, input.student-input {
+    width: 100%;
+    font-family: inherit;
+    font-size: 1.22rem;
+    background: #0f172a;
+    color: #fff;
+    border: 1.5px solid #475569;
+    border-radius: 14px;
+    padding: 12px 14px;
+    margin-top: 8px;
+    line-height: 2.1;
+  }
+
+  textarea.student-input:focus, input.student-input:focus {
+    outline: none;
+    border-color: var(--gold);
+  }
+
+  .btn-dl {
+    font-family: inherit;
+    font-size: 1.25rem;
+    background: linear-gradient(135deg, #10b981, #059669);
+    color: #fff;
+    border: none;
+    padding: 12px 28px;
+    border-radius: 14px;
+    cursor: pointer;
+    box-shadow: 0 5px 18px rgba(16, 185, 129, 0.4);
+    margin: 6px;
+  }
+
+  /* Exit Slip */
+  .exit-ticket {
+    background: linear-gradient(145deg, #0b132b, #172554);
+    border: 2.5px dashed var(--gold);
+    border-radius: 24px;
+    padding: 28px;
+  }
+
+  .mood-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+    margin: 12px 0 20px 0;
+  }
+
+  .mood-btn {
+    font-family: inherit;
+    font-size: 1.18rem;
+    background: rgba(15, 23, 42, 0.9);
+    color: #fff;
+    border: 2px solid #475569;
+    padding: 12px;
+    border-radius: 16px;
+    cursor: pointer;
+  }
+
+  .mood-btn.selected {
+    background: rgba(250, 204, 21, 0.22);
+    border-color: var(--gold);
+    color: #fef08a;
+    font-weight: bold;
+  }
+
+  .submitted-board {
+    margin-top: 22px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 14px;
+  }
+
+  .slip-card {
+    background: rgba(15, 23, 42, 0.95);
+    border-right: 5px solid var(--emerald);
+    border-radius: 14px;
+    padding: 14px 18px;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <header>
+    <div class="badge">امان زبان نامہ • جماعت ہفتم • تخلیقی تحریر</div>
+    <h1>🎨 مشن خاکہ نگاری / شخصیت نگاری 🎨</h1>
+    <div class="score-strip">
+      <div class="score-box">🏆 اسکور بورڈ: <strong id="points-display">0</strong> پوائنٹس</div>
+    </div>
+  </header>
+
+  <nav class="nav-tabs">
+    <button type="button" class="tab-btn active" onclick="openTab('t-intro', this)">📖 ۱۔ تصور اور الفاظ معانی</button>
+    <button type="button" class="tab-btn" onclick="openTab('t-model', this)">🔍 ۲۔ نمونۂ خاکہ اور تشخیص</button>
+    <button type="button" class="tab-btn" onclick="openTab('t-mindmap', this)">🧠 ۳۔ بصری ذہنی خاکہ (Mind Map)</button>
+    <button type="button" class="tab-btn" onclick="openTab('t-worksheets', this)">🚀 ۴۔ ٹیم ورک شیٹس</button>
+    <button type="button" class="tab-btn" onclick="openTab('t-exitslip', this)">🎫 ۵۔ ایگزٹ سلپ (خارجی پرچی)</button>
+  </nav>
+
+  <!-- TAB 1: CONCEPT, VOCABULARY & GOLDEN RULES -->
+  <section id="t-intro" class="tab-content active">
+    <div class="card">
+      <h2 class="section-title">✨ خاکہ نگاری کیا ہے؟ (مرکزی تصور)</h2>
+      <p style="font-size: 1.35rem; background: rgba(56, 189, 248, 0.12); padding: 16px 20px; border-radius: 16px; border-right: 5px solid var(--gold);">
+        کسی بھی شخصیت کے بارے میں اس طرح لکھنا کہ اس شخصیت کی ایک جیتی جاگتی تصویر پڑھنے والے کے سامنے ابھر کر آ جائے، <strong>خاکہ نویسی</strong> کہلاتا ہے۔ اسے <strong>شخصیت نگاری، شخصی خاکہ یا شخصیہ</strong> بھی کہا جاتا ہے۔ گویا خاکہ شخصیت کی ہو بہو عکاسی کا نام ہے جس میں ظاہری حلیے کے ساتھ ساتھ شخصیت کے باطنی اوصاف، عادات اور کارناموں کو اختصار اور دلچسپ انداز میں بیان کیا جاتا ہے۔
+      </p>
+    </div>
+
+    <div class="card">
+      <h2 class="section-title">📚 مشکل الفاظ و اصطلاحات کے معانی (کارڈ پر کلک کر کے معنی دیکھیں)</h2>
+      <div class="vocab-grid" id="vocab-grid"></div>
+    </div>
+
+    <div class="card">
+      <h2 class="section-title">💡 خاکہ نگاری کے سنہری اصول (یاد رکھیے!)</h2>
+      <div class="rules-grid">
+        <div class="rule-box">
+          <h4>۱۔ تکرار سے اجتناب</h4>
+          <p>خاکے میں کوئی بھی معلومات بار بار دہرائی نہیں جاتیں بلکہ جامع انداز اپنایا جاتا ہے۔</p>
+        </div>
+        <div class="rule-box">
+          <h4>۲۔ مثبت پہلوؤں کو اجاگر کرنا</h4>
+          <p>کوشش کی جاتی ہے کہ شخصیت کی خوبیوں اور مثبت پہلوؤں کو نمایاں کیا جائے۔</p>
+        </div>
+        <div class="rule-box">
+          <h4>۳۔ سادہ اور عام فہم زبان</h4>
+          <p>آسان اور دلچسپ زبان استعمال کی جائے تاکہ پڑھنے والا بوجھل پن محسوس نہ کرے۔</p>
+        </div>
+        <div class="rule-box">
+          <h4>۴۔ معروف و غیر معروف شخصیات</h4>
+          <p>خاکہ نگاری کے لیے مشہور (معروف) اور عام (غیر معروف) دونوں طرح کی شخصیات منتخب کی جا سکتی ہیں۔</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2 class="section-title">🎮 فوری جانچ کوئز: خاکہ نگاری کے اصول پہچانیں</h2>
+      <div class="quiz-grid" id="quiz-grid"></div>
+    </div>
+  </section>
+
+  <!-- TAB 2: MODEL SKETCH & INTERACTIVE ANALYSIS -->
+  <section id="t-model" class="tab-content">
+    <div class="card">
+      <h2 class="section-title">🔍 نمونۂ خاکہ: ”ہمارے شفیق دادا جان“ (سیکھنے اور سمجھنے کے لیے)</h2>
+      <p style="color: var(--text-soft); margin-bottom: 14px;">خاکہ لکھنے کا طریقہ سیکھنے کے لیے نیچے دیے گئے نمونۂ خاکہ میں رنگین جملوں پر کلک کریں تاکہ معلوم ہو کہ یہ خاکے کا کون سا حصہ ہے:</p>
+
+      <div class="model-sketch">
+        <span class="sketch-part" onclick="explainPart('۱۔ تعارف (شخصیت کا نام و تعلق)', 'خاکے کے آغاز میں شخصیت کا نام اور ان سے اپنا تعلق واضح کیا جاتا ہے۔', 5)">میرے دادا جان جناب حاجی عبد الرحمٰن صاحب ہمارے گھر کی رونق اور سب سے بزرگ ہستی ہیں۔</span>
+        <span class="sketch-part" onclick="explainPart('۲۔ بنیادی معلومات و ظاہری حلیہ', 'اس حصے میں عمر، قد کاٹھ، لباس اور چہرے کے نقوش کی تصویر کشی کی جاتی ہے۔', 5)">پچھتر برس کی عمر میں بھی ان کی کمر سیدھی، چہرے پر نورانی سفید داڑھی، آنکھوں پر سنہری فریم کا چشمہ اور سر پر ہمیشہ صاف ستھری جناح کیپ سجی رہتی ہے۔ وہ پیشے کے لحاظ سے ایک ریٹائرڈ ہیڈ ماسٹر ہیں اور ہمارے آبائی شہر ملتان میں رہتے ہیں۔</span>
+        <span class="sketch-part" onclick="explainPart('۳۔ عادات و اطوار', 'روزمرہ کی پسند ناپسند، وقت کی پابندی اور بول چال کے انداز کا بیان۔', 5)">صبح فجر کی اذان سے پہلے جاگنا، باغیچے کے پودوں کو پانی دینا اور اخبار کا بغور مطالعہ کرنا ان کے روزمرہ کے محبوب مشاغل ہیں۔</span>
+        <span class="sketch-part" onclick="explainPart('۴۔ مرقع نگاری (جیتی جاگتی تصویر کشی)', 'الفاظ کے ذریعے ایسا منظر کھینچنا کہ شخصیت قاری کی آنکھوں کے سامنے چلتی پھرتی محسوس ہو۔', 5)">جب وہ اپنی لکڑی کی چھڑی ٹیکتے ہوئے صحن میں ٹہلتے ہیں اور شفیق مسکراہٹ کے ساتھ ہر بچے کے سر پر ہاتھ پھیرتے ہیں تو یوں لگتا ہے جیسے محبت کا کوئی فرشتہ ہمارے درمیان موجود ہو۔</span>
+        <span class="sketch-part" onclick="explainPart('۵۔ کردار نویسی اور مصنف کی رائے', 'شخصیت کے کارناموں، ذاتی صفات اور ان کے اثر کا بیان مصنف کی اپنی رائے کے ساتھ۔', 5)">انہوں نے اپنی پوری زندگی غریب بچوں کو مفت تعلیم دینے میں گزاری۔ ان کی سچائی، دیانت داری اور ہمدردی نے میری شخصیت پر گہرا اثر ڈالا ہے اور میں بھی ان جیسا باکردار انسان بننا چاہتا ہوں۔</span>
+      </div>
+
+      <div id="sketch-feedback" style="margin-top: 16px; background: rgba(250, 204, 21, 0.15); border: 1.5px solid var(--gold); padding: 14px 20px; border-radius: 14px; color: #fef08a;">
+        اوپر دیے گئے خاکے کے کسی بھی جملے پر کلک کریں تاکہ اس کی فنی وضاحت یہاں ظاہر ہو...
+      </div>
+    </div>
+  </section>
+
+  <!-- TAB 3: RADIAL MIND MAP -->
+  <section id="t-mindmap" class="tab-content">
+    <div class="radial-board">
+      <div class="radial-header">
+        <h3>🧠 بصری ذہنی خاکہ: خاکہ نگاری کے پانچ بنیادی ستون</h3>
+        <p style="color: #cbd5e1;">جس شخصیت کا آپ خاکہ لکھنا چاہتے ہیں، اس کے متعلق پانچوں دائروں میں مختصر نکات لکھیں اور <strong>”محفوظ کریں“</strong> دبائیں!</p>
+      </div>
+
+      <div class="radial-layout">
+        <!-- RIGHT COLUMN -->
+        <div class="radial-col">
+          <div class="mm-bubble b1">
+            <div class="bubble-top">
+              <span class="bubble-title">۱۔ تعارف و نام</span>
+              <span>آغاز</span>
+            </div>
+            <p style="font-size: 1.05rem;">شخصیت کا نام اور ان سے آپ کا تعلق</p>
+            <div class="bubble-input-row">
+              <input type="text" class="bubble-input" id="mm-1" placeholder="مثلاً: میرے پسندیدہ استاد سر احمد...">
+              <button type="button" class="bubble-check-btn" onclick="checkMM(1)">محفوظ کریں</button>
+            </div>
+            <div id="fb-mm-1" style="font-size:1rem; font-weight:bold; margin-top:4px;"></div>
+          </div>
+
+          <div class="mm-bubble b2">
+            <div class="bubble-top">
+              <span class="bubble-title">۲۔ بنیادی معلومات و حلیہ</span>
+              <span>ظاہری شکل</span>
+            </div>
+            <p style="font-size: 1.05rem;">ظاہری حلیہ، رہائش، پیشہ اور وجہِ شہرت</p>
+            <div class="bubble-input-row">
+              <input type="text" class="bubble-input" id="mm-2" placeholder="مثلاً: سادہ لباس، خوش اخلاق...">
+              <button type="button" class="bubble-check-btn" onclick="checkMM(2)">محفوظ کریں</button>
+            </div>
+            <div id="fb-mm-2" style="font-size:1rem; font-weight:bold; margin-top:4px;"></div>
+          </div>
+        </div>
+
+        <!-- CENTER HUB + BOTTOM -->
+        <div class="center-hub-wrap">
+          <div class="center-circle">
+            <span class="big-title">شخصی خاکہ نگاری</span>
+            <span style="font-size: 1.05rem; font-weight: bold;">(خلاصہ نکات)</span>
+          </div>
+
+          <div class="mm-bubble b5" style="width: 100%; max-width: 350px;">
+            <div class="bubble-top">
+              <span class="bubble-title">۵۔ کردار نویسی و رائے</span>
+              <span>اختتام</span>
+            </div>
+            <p style="font-size: 1.05rem;">ان کے کارنامے، اوصاف اور آپ پر اثر</p>
+            <div class="bubble-input-row">
+              <input type="text" class="bubble-input" id="mm-5" placeholder="مثلاً: محنتی اور ایماندار انسان...">
+              <button type="button" class="bubble-check-btn" onclick="checkMM(5)">محفوظ کریں</button>
+            </div>
+            <div id="fb-mm-5" style="font-size:1rem; font-weight:bold; margin-top:4px;"></div>
+          </div>
+        </div>
+
+        <!-- LEFT COLUMN -->
+        <div class="radial-col">
+          <div class="mm-bubble b3">
+            <div class="bubble-top">
+              <span class="bubble-title">۳۔ عادات و اطوار</span>
+              <span>روزمرہ معمول</span>
+            </div>
+            <p style="font-size: 1.05rem;">پسندیدہ مشاغل، بول چال اور رویہ</p>
+            <div class="bubble-input-row">
+              <input type="text" class="bubble-input" id="mm-3" placeholder="مثلاً: وقت کے پابند، مطالعہ کے شوقین...">
+              <button type="button" class="bubble-check-btn" onclick="checkMM(3)">محفوظ کریں</button>
+            </div>
+            <div id="fb-mm-3" style="font-size:1rem; font-weight:bold; margin-top:4px;"></div>
+          </div>
+
+          <div class="mm-bubble b4">
+            <div class="bubble-top">
+              <span class="bubble-title">۴۔ مرقع نگاری</span>
+              <span>جیتی جاگتی تصویر</span>
+            </div>
+            <p style="font-size: 1.05rem;">چلنے پھرنے یا کام کرنے کا خاص انداز</p>
+            <div class="bubble-input-row">
+              <input type="text" class="bubble-input" id="mm-4" placeholder="مثلاً: مسکراتے ہوئے سب کی بات سننا...">
+              <button type="button" class="bubble-check-btn" onclick="checkMM(4)">محفوظ کریں</button>
+            </div>
+            <div id="fb-mm-4" style="font-size:1rem; font-weight:bold; margin-top:4px;"></div>
+          </div>
+        </div>
+      </div>
+
+      <div style="text-align: center; margin-top: 26px;">
+        <button type="button" class="btn-dl" onclick="downloadMindMap()">⬇️ ذہنی خاکہ (Mind Map) ڈاؤن لوڈ کریں</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- TAB 4: GROUP WORKSHEETS (NO "DIFFERENTIATED" LABEL SHOWN) -->
+  <section id="t-worksheets" class="tab-content">
+    <div class="card">
+      <h2 class="section-title">🚀 ٹیم چیلنج ورک شیٹس (تحریر کریں اور ڈاؤن لوڈ کریں)</h2>
+      <p style="color: var(--text-soft); margin-bottom: 16px;">اپنے گروپ کا نام منتخب کریں، دیے گئے خانوں میں اپنے جوابات تحریر کریں اور آخر میں اپنی ورک شیٹ <strong>ڈاؤن لوڈ</strong> کریں:</p>
+
+      <div class="group-bar">
+        <button type="button" class="grp-btn g-shaheen active" onclick="switchTeam('shaheen', this)">⚡ ٹیم شاہین</button>
+        <button type="button" class="grp-btn g-sherdil" onclick="switchTeam('sherdil', this)">🛡️ ٹیم شیر دل</button>
+        <button type="button" class="grp-btn g-uqab" onclick="switchTeam('uqab', this)">🦅 ٹیم عقاب</button>
+        <button type="button" class="grp-btn g-ghazi" onclick="switchTeam('ghazi', this)">🔥 ٹیم غازی</button>
+      </div>
+
+      <!-- TEAM 1: SHAHEEN (Foundational Support) -->
+      <div id="ws-shaheen" class="ws-panel active">
+        <h3 style="color: #7dd3fc; font-size: 1.65rem; margin-bottom: 12px;">⚡ ورک شیٹ: ٹیم شاہین</h3>
+        <div class="ws-meta">
+          <div><label>ٹیم کے اراکین کے نام:</label><input type="text" class="student-input" id="shaheen-names" placeholder="اپنے نام لکھیں..."></div>
+          <div><label>جماعت / سیکشن:</label><input type="text" class="student-input" id="shaheen-date" placeholder="جماعت ہفتم..."></div>
+        </div>
+
+        <div class="ws-q">
+          <label>سوال ۱: دیے گئے الفاظ کی مدد سے خالی جگہ پُر کریں: (عکاسی، مثبت، شخصیہ، آسان)</label>
+          <textarea class="student-input" id="shaheen-q1" rows="4">۱۔ شخصی خاکے کو شخصیت نگاری یا __________ بھی کہا جاتا ہے۔
+۲۔ خاکہ دراصل کسی شخصیت کی ہو بہو __________ کا نام ہے۔
+۳۔ خاکہ لکھتے وقت شخصیت کے __________ پہلوؤں کو اجاگر کیا جاتا ہے۔
+۴۔ خاکے میں __________ اور عام فہم زبان استعمال کرنی چاہیے۔</textarea>
+        </div>
+
+        <div class="ws-q">
+          <label>سوال ۲: اپنی پسندیدہ شخصیت (والد، والدہ یا استاد) کے متعلق درج ذیل نکات مکمل کریں:</label>
+          <textarea class="student-input" id="shaheen-q2" rows="4">• شخصیت کا نام: 
+• ظاہری حلیہ: 
+• دو اچھی عادات: 
+• پسند آنے کی وجہ: </textarea>
+        </div>
+
+        <div style="text-align: center;">
+          <button type="button" class="btn-dl" onclick="downloadWS('shaheen', 'ٹیم شاہین')">⬇️ ورک شیٹ ڈاؤن لوڈ کریں (ٹیم شاہین)</button>
+        </div>
+      </div>
+
+      <!-- TEAM 2: SHERDIL (Core Application) -->
+      <div id="ws-sherdil" class="ws-panel">
+        <h3 style="color: #fdba74; font-size: 1.65rem; margin-bottom: 12px;">🛡️ ورک شیٹ: ٹیم شیر دل</h3>
+        <div class="ws-meta">
+          <div><label>ٹیم کے اراکین کے نام:</label><input type="text" class="student-input" id="sherdil-names" placeholder="اپنے نام لکھیں..."></div>
+          <div><label>جماعت / سیکشن:</label><input type="text" class="student-input" id="sherdil-date" placeholder="جماعت ہفتم..."></div>
+        </div>
+
+        <div class="ws-q">
+          <label>سوال ۱: خاکہ نگاری کے کوئی سے چار بنیادی اجزاء (نکات) تحریر کریں۔</label>
+          <textarea class="student-input" id="sherdil-q1" rows="3" placeholder="اپنا جواب یہاں لکھیں..."></textarea>
+        </div>
+
+        <div class="ws-q">
+          <label>سوال ۲: اپنے بہترین دوست یا کسی عزیز شخصیت کا مختصر خاکہ (۷ تا ۸ سطور) تحریر کریں جس میں ان کا ظاہری حلیہ اور عادات و اطوار نمایاں ہوں۔</label>
+          <textarea class="student-input" id="sherdil-q2" rows="5" placeholder="شخصی خاکہ یہاں تحریر کریں..."></textarea>
+        </div>
+
+        <div style="text-align: center;">
+          <button type="button" class="btn-dl" onclick="downloadWS('sherdil', 'ٹیم شیر دل')">⬇️ ورک شیٹ ڈاؤن لوڈ کریں (ٹیم شیر دل)</button>
+        </div>
+      </div>
+
+      <!-- TEAM 3: UQAB (Analytical & Descriptive) -->
+      <div id="ws-uqab" class="ws-panel">
+        <h3 style="color: #6ee7b7; font-size: 1.65rem; margin-bottom: 12px;">🦅 ورک شیٹ: ٹیم عقاب</h3>
+        <div class="ws-meta">
+          <div><label>ٹیم کے اراکین کے نام:</label><input type="text" class="student-input" id="uqab-names" placeholder="اپنے نام لکھیں..."></div>
+          <div><label>جماعت / سیکشن:</label><input type="text" class="student-input" id="uqab-date" placeholder="جماعت ہفتم..."></div>
+        </div>
+
+        <div class="ws-q">
+          <label>سوال ۱: ”مرقع نگاری“ اور ”کردار نویسی“ میں کیا فرق ہے؟ مثال سے واضح کریں۔</label>
+          <textarea class="student-input" id="uqab-q1" rows="3" placeholder="اپنا تجزیہ تحریر کریں..."></textarea>
+        </div>
+
+        <div class="ws-q">
+          <label>سوال ۲: کتاب کی مشق کے مطابق کسی ایسی شخصیت کا جامع خاکہ (۱۰ تا ۱۲ سطور) تحریر کریں جس نے آپ کی شخصیت پر گہرا اثر ڈالا ہو۔</label>
+          <textarea class="student-input" id="uqab-q2" rows="6" placeholder="تفصیلی خاکہ یہاں تحریر کریں..."></textarea>
+        </div>
+
+        <div style="text-align: center;">
+          <button type="button" class="btn-dl" onclick="downloadWS('uqab', 'ٹیم عقاب')">⬇️ ورک شیٹ ڈاؤن لوڈ کریں (ٹیم عقاب)</button>
+        </div>
+      </div>
+
+      <!-- TEAM 4: GHAZI (Creative & Evaluative Mastery) -->
+      <div id="ws-ghazi" class="ws-panel">
+        <h3 style="color: #fef08a; font-size: 1.65rem; margin-bottom: 12px;">🔥 ورک شیٹ: ٹیم غازی</h3>
+        <div class="ws-meta">
+          <div><label>ٹیم کے اراکین کے نام:</label><input type="text" class="student-input" id="ghazi-names" placeholder="اپنے نام لکھیں..."></div>
+          <div><label>جماعت / سیکشن:</label><input type="text" class="student-input" id="ghazi-date" placeholder="جماعت ہفتم..."></div>
+        </div>
+
+        <div class="ws-q">
+          <label>سوال ۱: تنقیدی جائزہ — ”شخصی خاکہ تحریر کرنے والا جس نظر سے شخصیت کو خود محسوس کرتا ہے اس کا اثر تحریر پر ضرور پڑتا ہے“۔ اس جملے کی وضاحت دلیل کے ساتھ کریں۔</label>
+          <textarea class="student-input" id="ghazi-q1" rows="3" placeholder="اپنی رائے اور دلیل تحریر کریں..."></textarea>
+        </div>
+
+        <div class="ws-q">
+          <label>سوال ۲: تخلیقی چیلنج — اپنے اسکول کے مالی، چوکیدار یا کسی محنت کش (غیر معروف شخصیت) کا ایسا دلکش اور مؤثر خاکہ تحریر کریں کہ ان کی محنت اور کردار قاری کے دل میں اتر جائے۔</label>
+          <textarea class="student-input" id="ghazi-q2" rows="6" placeholder="تخلیقی خاکہ یہاں تحریر کریں..."></textarea>
+        </div>
+
+        <div style="text-align: center;">
+          <button type="button" class="btn-dl" onclick="downloadWS('ghazi', 'ٹیم غازی')">⬇️ ورک شیٹ ڈاؤن لوڈ کریں (ٹیم غازی)</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TAB 5: EXIT SLIP -->
+  <section id="t-exitslip" class="tab-content">
+    <div class="card">
+      <h2 class="section-title">🎫 ایگزٹ سلپ / خارجی پرچی (سبق کے متعلق آپ کی رائے)</h2>
+      <p style="color: var(--text-soft); margin-bottom: 18px;">کلاس ختم ہونے سے پہلے آج کے سبق کے بارے میں اپنی رائے اور سیکھے گئے نکات درج ذیل خارجی پرچی میں تحریر کریں:</p>
+
+      <div class="exit-ticket">
+        <div class="ws-meta">
+          <div>
+            <label style="color: var(--gold);">طالب علم کا نام / ٹیم:</label>
+            <input type="text" class="student-input" id="exit-name" placeholder="اپنا نام اور ٹیم لکھیں...">
+          </div>
+          <div>
+            <label style="color: var(--gold);">آج کے سبق کی سمجھ بوجھ کی سطح منتخب کریں:</label>
+            <div class="mood-grid">
+              <button type="button" class="mood-btn" onclick="selectMood(this, '🤩 بہترین! مکمل سمجھ آ گیا')">🤩 بہترین! مکمل سمجھ آ گیا</button>
+              <button type="button" class="mood-btn" onclick="selectMood(this, '🙂 اچھا! زیادہ تر سمجھ آ گیا')">🙂 اچھا! زیادہ تر سمجھ آ گیا</button>
+              <button type="button" class="mood-btn" onclick="selectMood(this, '🤔 مزید مشق کی ضرورت ہے')">🤔 مزید مشق کی ضرورت ہے</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="ws-q">
+          <label>۱۔ آج کے سبق سے آپ نے کون سی تین (3) اہم باتیں سیکھیں؟</label>
+          <textarea class="student-input" id="exit-learned" rows="3" placeholder="۱۔ ...&#10;۲۔ ...&#10;۳۔ ..."></textarea>
+        </div>
+
+        <div class="ws-q" style="border-bottom: none;">
+          <label>۲۔ سبق کے متعلق آپ کی مجموعی رائے یا کوئی سوال:</label>
+          <textarea class="student-input" id="exit-opinion" rows="3" placeholder="آج کا سبق کیسا لگا؟ اپنی رائے یہاں تحریر کریں..."></textarea>
+        </div>
+
+        <div style="text-align: center; margin-top: 12px;">
+          <button type="button" class="btn-dl" style="background: linear-gradient(135deg, #38bdf8, #2563eb);" onclick="submitExitSlip()">📌 اسکرین پر پرچی جمع کریں</button>
+          <button type="button" class="btn-dl" onclick="downloadExitSlip()">⬇️ خارجی پرچی ڈاؤن لوڈ کریں</button>
+        </div>
+      </div>
+
+      <div id="submitted-slips-area" style="margin-top: 24px;">
+        <h3 style="color: var(--cyan); font-size: 1.5rem; margin-bottom: 10px;">📋 طلبہ کی جمع کردہ خارجی پرچیاں:</h3>
+        <div class="submitted-board" id="submitted-board">
+          <p id="empty-slip-msg" style="color: var(--text-soft);">ابھی تک کوئی پرچی جمع نہیں کی گئی۔ اوپر فارم پُر کر کے جمع کریں!</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<script>
+  var totalScore = 0;
+  var selectedMoodText = "منتخب نہیں کی گئی";
+
+  function addScore(pts) {
+    totalScore += pts;
+    document.getElementById('points-display').innerText = totalScore;
+  }
+
+  function openTab(tabId, btn) {
+    var tabs = document.querySelectorAll('.tab-content');
+    for (var i = 0; i < tabs.length; i++) tabs[i].classList.remove('active');
+    var btns = document.querySelectorAll('.tab-btn');
+    for (var j = 0; j < btns.length; j++) btns[j].classList.remove('active');
+    document.getElementById(tabId).classList.add('active');
+    btn.classList.add('active');
+  }
+
+  // Vocabulary Data
+  var vocabList = [
+    { w: "مرقع نگاری", m: "الفاظ کے ذریعے کسی شخصیت یا منظر کی جیتی جاگتی تصویر کھینچنا (کلک ہو گیا +5)" },
+    { w: "کردار نویسی", m: "شخصیت کے کارناموں، خوبیوں اور باطنی صفات کو بیان کرنا (کلک ہو گیا +5)" },
+    { w: "عادات و اطوار", m: "روزمرہ کے طور طریقے، پسند ناپسند اور برتاؤ (کلک ہو گیا +5)" },
+    { w: "ہو بہو عکاسی", m: "بالکل اصل جیسی تصویر یا نقشہ پیش کرنا (کلک ہو گیا +5)" },
+    { w: "معروف و غیر معروف", m: "مشہور شخصیات اور عام لوگ جو زیادہ مشہور نہ ہوں (کلک ہو گیا +5)" }
+  ];
+
+  var vocabGrid = document.getElementById('vocab-grid');
+  for (var v = 0; v < vocabList.length; v++) {
+    (function(item) {
+      var card = document.createElement('div');
+      card.className = 'vocab-card';
+      card.innerHTML = '<div class="vocab-word">' + item.w + '</div>' +
+        '<div style="font-size:0.95rem; color:#94a3b8;">(معنی دیکھنے کے لیے کلک کریں)</div>' +
+        '<div class="vocab-meaning">' + item.m + '</div>';
+      card.onclick = function() {
+        if (!card.classList.contains('revealed')) {
+          card.classList.add('revealed');
+          addScore(5);
+        }
+      };
+      vocabGrid.appendChild(card);
+    })(vocabList[v]);
+  }
+
+  // Quick Quiz Data
+  var quizData = [
+    {
+      q: "۱۔ خاکہ نگاری میں شخصیت کے کن پہلوؤں کو زیادہ اجاگر کیا جاتا ہے؟",
+      opts: ["مثبت پہلوؤں کو", "صرف خامیوں کو", "بار بار دہرائی گئی باتوں کو"],
+      ans: 0
+    },
+    {
+      q: "۲۔ خاکہ نگاری کے لیے کس طرح کی زبان استعمال کرنی چاہیے؟",
+      opts: ["انتہائی مشکل اور بوجھل", "آسان اور عام فہم", "صرف اشعار پر مشتمل"],
+      ans: 1
+    },
+    {
+      q: "۳۔ خاکہ نگاری کے لیے کس قسم کی شخصیت کا انتخاب کیا جا سکتا ہے؟",
+      opts: ["صرف بادشاہوں کا", "صرف کھلاڑیوں کا", "معروف اور غیر معروف دونوں طرح کی"],
+      ans: 2
+    }
+  ];
+
+  var quizGrid = document.getElementById('quiz-grid');
+  for (var q = 0; q < quizData.length; q++) {
+    (function(qItem) {
+      var box = document.createElement('div');
+      box.className = 'quiz-item';
+      var html = '<div style="color:var(--gold); font-weight:bold; margin-bottom:8px;">' + qItem.q + '</div>';
+      for (var o = 0; o < qItem.opts.length; o++) {
+        html += '<button type="button" class="btn-opt" data-idx="' + o + '">' + qItem.opts[o] + '</button>';
+      }
+      html += '<div class="q-fb" style="margin-top:8px; font-size:1.05rem;"></div>';
+      box.innerHTML = html;
+
+      var buttons = box.querySelectorAll('.btn-opt');
+      var fb = box.querySelector('.q-fb');
+      for (var b = 0; b < buttons.length; b++) {
+        buttons[b].onclick = function() {
+          if (box.getAttribute('data-done')) return;
+          var idx = parseInt(this.getAttribute('data-idx'), 10);
+          if (idx === qItem.ans) {
+            box.setAttribute('data-done', '1');
+            this.style.background = '#059669';
+            fb.style.color = '#34d399';
+            fb.innerText = '✅ بالکل درست جواب! (+10 پوائنٹس)';
+            addScore(10);
+          } else {
+            this.style.background = '#be123c';
+            fb.style.color = '#fb7185';
+            fb.innerText = '❌ دوبارہ غور کریں!';
+          }
+        };
+      }
+      quizGrid.appendChild(box);
+    })(quizData[q]);
+  }
+
+  // Model Sketch Explanation
+  function explainPart(title, desc, pts) {
+    document.getElementById('sketch-feedback').innerHTML =
+      '<strong style="color:var(--cyan); font-size:1.35rem;">' + title + '</strong><br>' + desc;
+    addScore(pts);
+  }
+
+  // Mind Map Validation
+  function checkMM(num) {
+    var inp = document.getElementById('mm-' + num);
+    var fb = document.getElementById('fb-mm-' + num);
+    if (inp.value.trim().length < 3) {
+      fb.style.color = '#b91c1c';
+      fb.innerText = '⚠️ براہ کرم پہلے مختصر نکتہ تحریر کریں!';
+      return;
+    }
+    fb.style.color = '#15803d';
+    fb.innerText = '✅ بہترین! نکتہ محفوظ ہو گیا۔';
+    if (!inp.getAttribute('data-scored')) {
+      inp.setAttribute('data-scored', '1');
+      addScore(10);
+    }
+  }
+
+  function downloadMindMap() {
+    var m1 = document.getElementById('mm-1').value || '---';
+    var m2 = document.getElementById('mm-2').value || '---';
+    var m3 = document.getElementById('mm-3').value || '---';
+    var m4 = document.getElementById('mm-4').value || '---';
+    var m5 = document.getElementById('mm-5').value || '---';
+
+    var htmlDoc = '<!DOCTYPE html><html lang="ur" dir="rtl"><head><meta charset="UTF-8"><title>ذہنی خاکہ - شخصیت نگاری</title>' +
+      '<link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;700&display=swap" rel="stylesheet">' +
+      '<style>body{font-family:"Jameel Noori Nastaleeq","Noto Nastaliq Urdu",serif;padding:30px;line-height:2.2;background:#f8fafc;color:#0f172a;}' +
+      '.hub{background:#facc15;border:4px solid #0f172a;border-radius:50px;text-align:center;padding:14px;max-width:350px;margin:0 auto 24px auto;font-size:1.7rem;font-weight:bold;}' +
+      '.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:850px;margin:0 auto;}' +
+      '.box{background:#fff;border:3px solid #0f172a;border-radius:20px;padding:16px;}' +
+      '.title{font-weight:bold;font-size:1.35rem;color:#0284c7;border-bottom:1px dashed #94a3b8;margin-bottom:6px;}</style></head><body>' +
+      '<div class="hub">شخصی خاکہ نگاری کا ذہنی خاکہ</div>' +
+      '<div class="grid">' +
+      '<div class="box"><div class="title">۱۔ تعارف و نام</div><div>' + m1 + '</div></div>' +
+      '<div class="box"><div class="title">۲۔ بنیادی معلومات و حلیہ</div><div>' + m2 + '</div></div>' +
+      '<div class="box"><div class="title">۳۔ عادات و اطوار</div><div>' + m3 + '</div></div>' +
+      '<div class="box"><div class="title">۴۔ مرقع نگاری</div><div>' + m4 + '</div></div>' +
+      '<div class="box" style="grid-column: span 2;"><div class="title">۵۔ کردار نویسی و ذاتی رائے</div><div>' + m5 + '</div></div>' +
+      '</div></body></html>';
+
+    var blob = new Blob([htmlDoc], { type: 'text/html;charset=utf-8' });
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'MindMap_Khaka_Nigari.html';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  }
+
+  // Group Worksheets
+  function switchTeam(teamKey, btn) {
+    var panels = document.querySelectorAll('.ws-panel');
+    for (var i = 0; i < panels.length; i++) panels[i].classList.remove('active');
+    var btns = document.querySelectorAll('.grp-btn');
+    for (var j = 0; j < btns.length; j++) btns[j].classList.remove('active');
+    document.getElementById('ws-' + teamKey).classList.add('active');
+    btn.classList.add('active');
+  }
+
+  function downloadWS(teamKey, teamTitle) {
+    var names = document.getElementById(teamKey + '-names').value || "نام درج نہیں کیا گیا";
+    var date = document.getElementById(teamKey + '-date').value || "جماعت ہفتم";
+    var q1 = document.getElementById(teamKey + '-q1').value.replace(/\n/g, '<br>');
+    var q2 = document.getElementById(teamKey + '-q2').value.replace(/\n/g, '<br>');
+
+    var panel = document.getElementById('ws-' + teamKey);
+    var labels = panel.querySelectorAll('.ws-q label');
+
+    var htmlDoc = '<!DOCTYPE html><html lang="ur" dir="rtl"><head><meta charset="UTF-8"><title>ورک شیٹ - ' + teamTitle + '</title>' +
+      '<link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;700&display=swap" rel="stylesheet">' +
+      '<style>body{font-family:"Jameel Noori Nastaleeq","Noto Nastaliq Urdu",serif;padding:30px;line-height:2.2;color:#0f172a;}' +
+      '.hdr{text-align:center;border-bottom:3px double #0f172a;padding-bottom:10px;margin-bottom:20px;}' +
+      '.meta{display:flex;justify-content:space-between;background:#f1f5f9;padding:10px 18px;border-radius:10px;margin-bottom:20px;font-weight:bold;}' +
+      '.box{border:1.5px solid #cbd5e1;border-radius:12px;padding:15px;margin-bottom:18px;}' +
+      '.qt{font-weight:bold;margin-bottom:8px;}' +
+      '.ans{background:#f8fafc;padding:12px;border-right:4px solid #0284c7;min-height:60px;}</style></head><body>' +
+      '<div class="hdr"><h1>اُردو تخلیقی تحریر: خاکہ نگاری / شخصیت نگاری</h1><h2>ورک شیٹ — ' + teamTitle + '</h2></div>' +
+      '<div class="meta"><span>ٹیم کے اراکین: ' + names + '</span><span>جماعت: ' + date + '</span></div>' +
+      '<div class="box"><div class="qt">' + labels[0].innerText + '</div><div class="ans">' + (q1 || '---') + '</div></div>' +
+      '<div class="box"><div class="qt">' + labels[1].innerText + '</div><div class="ans">' + (q2 || '---') + '</div></div>' +
+      '</body></html>';
+
+    var blob = new Blob([htmlDoc], { type: 'text/html;charset=utf-8' });
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'Worksheet_' + teamKey + '.html';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  }
+
+  // Exit Slip
+  function selectMood(btn, moodStr) {
+    var mBtns = document.querySelectorAll('.mood-btn');
+    for (var i = 0; i < mBtns.length; i++) mBtns[i].classList.remove('selected');
+    btn.classList.add('selected');
+    selectedMoodText = moodStr;
+  }
+
+  function submitExitSlip() {
+    var name = document.getElementById('exit-name').value.trim() || "طالب علم";
+    var learned = document.getElementById('exit-learned').value.trim();
+    var opinion = document.getElementById('exit-opinion').value.trim();
+
+    if (!learned && !opinion) {
+      alert("براہ کرم خارجی پرچی جمع کرنے سے پہلے کم از کم ایک خانہ پُر کریں!");
+      return;
+    }
+
+    var emptyMsg = document.getElementById('empty-slip-msg');
+    if (emptyMsg) emptyMsg.style.display = 'none';
+
+    var board = document.getElementById('submitted-board');
+    var card = document.createElement('div');
+    card.className = 'slip-card';
+    card.innerHTML =
+      '<div style="color: var(--gold); font-weight: bold; font-size: 1.3rem;">🎫 ' + name + '</div>' +
+      '<div style="color: var(--cyan); font-size: 1.05rem;">تاثر: ' + selectedMoodText + '</div>' +
+      '<div style="margin-top: 6px;"><strong>سیکھے گئے نکات:</strong> ' + (learned || '---') + '</div>' +
+      '<div><strong>سبق پر رائے:</strong> ' + (opinion || '---') + '</div>';
+
+    board.appendChild(card);
+    addScore(15);
+
+    document.getElementById('exit-name').value = '';
+    document.getElementById('exit-learned').value = '';
+    document.getElementById('exit-opinion').value = '';
+  }
+
+  function downloadExitSlip() {
+    var name = document.getElementById('exit-name').value || "طالب علم";
+    var learned = document.getElementById('exit-learned').value.replace(/\n/g, '<br>') || "---";
+    var opinion = document.getElementById('exit-opinion').value.replace(/\n/g, '<br>') || "---";
+
+    var htmlDoc = '<!DOCTYPE html><html lang="ur" dir="rtl"><head><meta charset="UTF-8"><title>خارجی پرچی - ' + name + '</title>' +
+      '<link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;700&display=swap" rel="stylesheet">' +
+      '<style>body{font-family:"Jameel Noori Nastaleeq","Noto Nastaliq Urdu",serif;padding:30px;line-height:2.2;color:#0f172a;}' +
+      '.ticket{border:3px dashed #0284c7;border-radius:18px;padding:24px;max-width:750px;margin:0 auto;}' +
+      '.hdr{text-align:center;border-bottom:2px solid #cbd5e1;padding-bottom:10px;margin-bottom:18px;}' +
+      '.row{background:#f8fafc;padding:12px 16px;border-right:4px solid #eab308;margin-bottom:14px;border-radius:8px;}</style></head><body>' +
+      '<div class="ticket"><div class="hdr"><h1>🎫 ایگزٹ سلپ / خارجی پرچی</h1><h3>سبق: خاکہ نگاری / شخصیت نگاری (جماعت ہفتم)</h3></div>' +
+      '<div class="row"><strong>نام / ٹیم:</strong> ' + name + ' &nbsp;|&nbsp; <strong>سمجھ بوجھ:</strong> ' + selectedMoodText + '</div>' +
+      '<div class="row"><strong>۱۔ آج کے سبق سے سیکھی گئی تین اہم باتیں:</strong><br>' + learned + '</div>' +
+      '<div class="row"><strong>۲۔ سبق کے متعلق مجموعی رائے:</strong><br>' + opinion + '</div></div></body></html>';
+
+    var blob = new Blob([htmlDoc], { type: 'text/html;charset=utf-8' });
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'Exit_Slip_' + name.replace(/\s+/g, '_') + '.html';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  }
+</script>
+</body>
+</html>
